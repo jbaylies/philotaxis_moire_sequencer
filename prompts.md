@@ -9,6 +9,8 @@ Seems like someone else had Claude make 100 sequencers for v8ui in Max a year ag
 
 A vertical line shall be drawn from the center to the edge. The vertical line can rotate around the center at a speed set by a parameter. Whenever the line touches a point, a chromatic MIDI note plays, in a note range set by two min max parameters. The volume of the MIDI note is determined simply by the brightness of the color of the point. The length of the MIDI notes is the same for all, set by a parameter.
 
+Do not utilize the voronoi aspect. Just display individual points.
+
 The parameters should include all parameters displayed in the UI for the shader.
 
 
