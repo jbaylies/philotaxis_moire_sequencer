@@ -365,9 +365,9 @@ function sweepLine(from, to, now) {
     // (from, to]: d is how far past `from` the site sits, in the line's direction
     const d = clockwise ? fract(from - siteAng[n]) : fract(siteAng[n] - from);
     if (!(delta >= 1 || (d > 0 && d <= delta))) continue;
-    siteFlash[n] = now;
     const vel = Math.round(brightness(siteColor(n)) * 127);
-    if (vel < 1 || vel < P.gate) continue;
+    if (vel < 1 || vel < P.gate) continue; // gated points get no bubble either
+    siteFlash[n] = now;
     const pitch = Math.round(P.noteMin + (P.noteMax - P.noteMin) * siteRad[n]);
     hits.push([pitch, vel]);
   }
