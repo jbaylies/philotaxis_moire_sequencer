@@ -1,8 +1,8 @@
-<a href="#nolink">![rainbow](./media/rainbow.png)</a>
+<div align="center">
 
 ![demo_gif](./media/demo.gif)
 
-Prompted from [sousastep.quest](https://github.com/jbaylies/sousastep.quest/tree/gh-pages/public/shaders)'s shader, which was itself prompted from [SousaVFX](https://github.com/Sousastep/sousaVFX-teensy/tree/main/SousaVFX)'s teensy code, which I mostly figured out myself, initially, before ai got good.
+</div>
 
 <a href="#nolink">![rainbow](./media/rainbow.png)</a>
 
