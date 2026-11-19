@@ -1,3 +1,7 @@
+Prompted from [sousastep.quest](https://github.com/jbaylies/sousastep.quest/tree/gh-pages/public/shaders)'s shader, which was itself prompted from [SousaVFX](https://github.com/Sousastep/sousaVFX-teensy/tree/main/SousaVFX)'s teensy code.
+
+Claude 5.5 Medium
+-----------------
 
 Let's create a philotaxis moire sequencer based on /Users/jbaylies/Documents/sousastep.quest/public/shaders
 
@@ -12,5 +16,3 @@ A vertical line shall be drawn from the center to the edge. The vertical line ca
 Do not utilize the voronoi aspect. Just display individual points.
 
 The parameters should include all parameters displayed in the UI for the shader.
-
-
