@@ -29,7 +29,7 @@
     "box": {
      "id": "c-title",
      "maxclass": "comment",
-     "text": "philotaxis moire sequencer \u2014 drag sliders, click toggles, double-click to reset. Messages: <param> <value>, start, stop, reset, defaults, panel 0/1",
+     "text": "phyllotaxis moire sequencer \u2014 drag sliders, click toggles, double-click to reset. Messages: <param> <value>, start, stop, reset, defaults, panel 0/1",
      "numinlets": 1,
      "numoutlets": 0,
      "patching_rect": [
@@ -152,7 +152,7 @@
     "box": {
      "id": "seq",
      "maxclass": "v8ui",
-     "filename": "philotaxis_moire_sequencer.js",
+     "filename": "phyllotaxis_moire_sequencer.js",
      "numinlets": 1,
      "numoutlets": 2,
      "outlettype": [

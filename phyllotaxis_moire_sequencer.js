@@ -694,7 +694,7 @@ function loadbang() {
 // `<param> <value>` (also reached through the attributes below)
 function anything() {
   if (SPEC[messagename]) setParam(messagename, arguments[0]);
-  else post("philotaxis: unknown message " + messagename + "\n");
+  else post("phyllotaxis: unknown message " + messagename + "\n");
 }
 
 // attributes, stored with the patcher; getters/setters are generated globals
@@ -705,7 +705,7 @@ for (const p of PARAMS) {
   try {
     declareattribute(p.name, g, s, 1);
   } catch (e) {
-    post("philotaxis: could not declare attribute " + p.name + "\n");
+    post("phyllotaxis: could not declare attribute " + p.name + "\n");
   }
 }
 

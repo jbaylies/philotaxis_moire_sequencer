@@ -6,7 +6,7 @@
 
 <a href="#nolink">![rainbow](./media/rainbow.png)</a>
 
-# philotaxis moiré sequencer
+# phyllotaxis moiré sequencer
 
 A Max 9 `v8ui` sequencer built on the phyllotaxis pattern from sousastep.quest's background shader (`public/shaders/sousavfx-voronoi*.frag`, `public/js/vfx.js`). It draws each site as a single point instead of a voronoi cell, and colours every point exactly as the shader colours its cell.
 
@@ -20,8 +20,8 @@ A line from the centre to the rim rotates at `rpm`. It starts pointing straight 
 
 ## Files
 
-- `philotaxis_moire_sequencer.maxpat`: open this one. Signal chain: v8ui → `makenote` → `noteout`. Double-click `noteout` to choose a port. The patch also has a tempo helper (rpm = bpm / beats per revolution).
-- `philotaxis_moire_sequencer.js`: the v8ui script. Keep it next to the patch.
+- `phyllotaxis_moire_sequencer.maxpat`: open this one. Signal chain: v8ui → `makenote` → `noteout`. Double-click `noteout` to choose a port. The patch also has a tempo helper (rpm = bpm / beats per revolution).
+- `phyllotaxis_moire_sequencer.js`: the v8ui script. Keep it next to the patch.
 
 <a href="#nolink">![rainbow](./media/rainbow.png)</a>
 
