@@ -1,3 +1,11 @@
+<a href="#nolink">![rainbow](./media/rainbow.png)</a>
+
+![demo_gif](./media/demo.gif)
+
+Prompted from [sousastep.quest](https://github.com/jbaylies/sousastep.quest/tree/gh-pages/public/shaders)'s shader, which was itself prompted from [SousaVFX](https://github.com/Sousastep/sousaVFX-teensy/tree/main/SousaVFX)'s teensy code, which I mostly figured out myself, initially, before ai got good.
+
+<a href="#nolink">![rainbow](./media/rainbow.png)</a>
+
 # philotaxis moiré sequencer
 
 A Max 9 `v8ui` sequencer built on the phyllotaxis pattern from sousastep.quest's background shader (`public/shaders/sousavfx-voronoi*.frag`, `public/js/vfx.js`). It draws each site as a single point instead of a voronoi cell, and colours every point exactly as the shader colours its cell.
@@ -8,10 +16,14 @@ A line from the centre to the rim rotates at `rpm`. It starts pointing straight 
 - **velocity:** `round(127 × brightness)`, where brightness is the HSB value, `max(r, g, b)`, of the point's colour. Unlit points sit at the shader's base colour `#151b26`, so they play at about velocity 19. Raise `gate` above that to hear only the lit points.
 - **length:** `duration` ms, the same for every note.
 
+<a href="#nolink">![rainbow](./media/rainbow.png)</a>
+
 ## Files
 
 - `philotaxis_moire_sequencer.maxpat`: open this one. Signal chain: v8ui → `makenote` → `noteout`. Double-click `noteout` to choose a port. The patch also has a tempo helper (rpm = bpm / beats per revolution).
 - `philotaxis_moire_sequencer.js`: the v8ui script. Keep it next to the patch.
+
+<a href="#nolink">![rainbow](./media/rainbow.png)</a>
 
 ## Parameters
 
@@ -40,3 +52,6 @@ Each parameter can be set three ways: in the panel (drag a slider, click a toggl
 Other messages: `start`, `stop`, `reset` (line back to vertical, phases zeroed), `defaults`, `panel 0/1`, and `bang` (resends the MIDI channel).
 
 If several points of the same pitch are crossed in one tick (5 ms), only the loudest plays. Each tick plays at most 32 notes.
+
+<a href="#nolink">![rainbow](./media/rainbow.png)</a>
+
