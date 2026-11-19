@@ -1,5 +1,5 @@
 
-Let's create a philotaxis sequencer based on /Users/jbaylies/Documents/sousastep.quest/public/shaders
+Let's create a philotaxis moire sequencer based on /Users/jbaylies/Documents/sousastep.quest/public/shaders
 
 It shall be made for MaxMSP.
 
