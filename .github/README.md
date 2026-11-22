@@ -8,7 +8,7 @@
 
 # phyllotaxis moiré sequencer
 
-A Max 9 `v8ui` sequencer built on the phyllotaxis pattern from sousastep.quest's background shader (`public/shaders/sousavfx-voronoi*.frag`, `public/js/vfx.js`). It draws each site as a single point instead of a voronoi cell, and colours every point exactly as the shader colours its cell.
+A MIDI sequencer built on the phyllotaxis pattern from sousastep.quest's background shader (`public/shaders/sousavfx-voronoi*.frag`, `public/js/vfx.js`). It draws each site as a single point instead of a voronoi cell, and colours every point exactly as the shader colours its cell. It comes in two forms: a Max 9 `v8ui` patch, and an AU / VST3 / CLAP plugin (plus a standalone app) built with [YUP](https://github.com/kunitoki/yup).
 
 A line from the centre to the rim rotates at `rpm`. It starts pointing straight up, and positive values turn it clockwise. Each point it passes plays a MIDI note:
 
@@ -22,6 +22,50 @@ A line from the centre to the rim rotates at `rpm`. It starts pointing straight 
 
 - `phyllotaxis_moire_sequencer.maxpat`: open this one. Signal chain: v8ui → `makenote` → `noteout`. Double-click `noteout` to choose a port. The patch also has a tempo helper (rpm = bpm / beats per revolution).
 - `phyllotaxis_moire_sequencer.js`: the v8ui script. Keep it next to the patch.
+- `CMakeLists.txt`, `source/`: the plugin. `yup/` is a git submodule.
+
+<a href="#nolink">![rainbow](./media/rainbow.png)</a>
+
+## Plugin
+
+<div align="center">
+
+![plugin](./media/plugin.png)
+
+</div>
+
+A C++ port of the v8ui script that works as a MIDI generator in a DAW. The pattern maths is ported line for line in double precision, so the points, colours and notes match the Max version. Notes are generated on the audio thread with sample-accurate timing, and every note-on gets its note-off: notes end when the transport stops, the channel changes, or the pattern is reset.
+
+The formats are AU (registered as a MIDI processor, so Logic lists it under MIDI FX), VST3, CLAP and a standalone app. It has been tested on macOS only.
+
+### Building
+
+Needs CMake 3.31+ and Xcode's command line tools.
+
+```bash
+git clone --recurse-submodules https://github.com/jbaylies/philotaxis_moire_sequencer.git
+cd philotaxis_moire_sequencer
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j
+```
+
+The first configure downloads YUP's dependencies (SDL, the VST3, CLAP and AudioUnit SDKs). Each build installs the plugins into `~/Library/Audio/Plug-Ins` as `Phyllotaxis.vst3`, `Phyllotaxis.clap` and `phyllotaxis_au_plugin.component`. These are real copies rather than symlinks, because hosts without Desktop access, such as Ableton Live, skip links into a protected folder. The standalone app is `build/Phyllotaxis.app`.
+
+### Using it
+
+- **Logic Pro:** insert it in an instrument track's MIDI FX slot.
+- **Ableton Live:** put it on a MIDI track (it outputs silent audio). On a second MIDI track with an instrument, set **MIDI From** to the first track, then **Phyllotaxis**, and set **Monitor** to **In**.
+- **Bitwig, Reaper, Cubase:** load the VST3 or CLAP and route its MIDI output to an instrument.
+
+The plugin ignores incoming MIDI.
+
+### Differences from the Max version
+
+- `followTransport` (on by default): the line only sweeps while the host is playing. Turn it off to run freely. The standalone app has no transport, so the line always runs there.
+- `channel` is a parameter. The Max version sends the channel out of a second outlet.
+- **defaults** always restores `divisions` to 56. In the Max version, defaults with the lock off keeps the value the sweep was showing.
+- In the panel, Shift-drag a slider for fine steps. Click the corner button to hide the panel.
+- Every parameter can be automated by the host and is saved with the session, together with whether the panel is open.
 
 <a href="#nolink">![rainbow](./media/rainbow.png)</a>
 
@@ -35,6 +79,7 @@ A line from the centre to the rim rotates at `rpm`. It starts pointing straight 
 | | `duration` (ms, log) | 1 … 4000 | 150 |
 | | `channel` | 1 … 16 | 1 |
 | | `gate` (min velocity) | 0 … 127 | 0 |
+| | `followTransport` (plugin only) | 0/1 | 1 |
 | pattern | `speed` | −10 … 10 | 0.7 |
 | | `divisions` | 1 … 233 | 56 |
 | | `divLock` (off = time-run sweep) | 0/1 | 1 |

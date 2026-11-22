@@ -1,3 +1,6 @@
 [submodule "max-v8ui-sequencers"]
 	path = max-v8ui-sequencers
 	url = https://github.com/tsugumasa320/max-v8ui-sequencers.git
+[submodule "yup"]
+	path = yup
+	url = https://github.com/kunitoki/yup.git
