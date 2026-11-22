@@ -38,6 +38,10 @@ A C++ port of the v8ui script that works as a MIDI generator in a DAW. The patte
 
 The formats are AU (registered as a MIDI processor, so Logic lists it under MIDI FX), VST3, CLAP and a standalone app. The VST3 and the standalone app have been tested in Ableton Live on macOS and Windows. The AU is macOS only.
 
+### Download
+
+Builds for macOS (universal, macOS 11+) and Windows (x64) are on the [releases page](https://github.com/jbaylies/philotaxis_moire_sequencer/releases), with install steps in each zip. They aren't code-signed: on macOS, clear the quarantine flag with `xattr -dr com.apple.quarantine` on each plugin; on Windows, SmartScreen warns about the standalone app the first time it runs.
+
 ### Building
 
 Needs CMake 3.31+, plus Xcode's command line tools on macOS or Visual Studio 2022 (or its Build Tools) with the C++ workload on Windows.
@@ -50,6 +54,8 @@ cmake --build build -j
 ```
 
 On Windows, configure with `-G "Visual Studio 17 2022" -A x64` and build with `cmake --build build --config Release --parallel`.
+
+To package a release, run `scripts/package_release.sh` on macOS and `scripts/package_release.ps1` on Windows. Copy the Windows `build-release/stage` folder to `build-release/win-stage` on the Mac, then run `scripts/make_release_zips.sh`.
 
 The first configure downloads YUP's dependencies (SDL, the VST3, CLAP and AudioUnit SDKs). Each build installs the plugins into `~/Library/Audio/Plug-Ins` as `Phyllotaxis.vst3`, `Phyllotaxis.clap` and `phyllotaxis_au_plugin.component`. These are real copies rather than symlinks, because hosts without Desktop access, such as Ableton Live, skip links into a protected folder. The standalone app is `build/Phyllotaxis.app`.
 

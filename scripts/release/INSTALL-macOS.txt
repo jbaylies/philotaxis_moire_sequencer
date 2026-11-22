@@ -1,0 +1,63 @@
+Phyllotaxis @VERSION@ for macOS
+==============================
+
+A MIDI generator: a rotating line plays the points of a phyllotaxis spiral as
+MIDI notes. Universal (Apple Silicon and Intel), macOS 11 or later.
+
+https://github.com/jbaylies/philotaxis_moire_sequencer
+
+
+Install
+-------
+
+Copy each plugin into its folder. In Finder, use Go > Go to Folder and paste
+the path. Create the folder if it doesn't exist.
+
+  Phyllotaxis.component   ~/Library/Audio/Plug-Ins/Components   (AU: Logic, GarageBand)
+  Phyllotaxis.vst3        ~/Library/Audio/Plug-Ins/VST3         (Ableton Live, Cubase, Reaper)
+  Phyllotaxis.clap        ~/Library/Audio/Plug-Ins/CLAP         (Bitwig, Reaper)
+  Phyllotaxis.app         anywhere, such as /Applications
+
+Then rescan plugins in your DAW.
+
+
+"Phyllotaxis can't be opened" or the plugin doesn't appear
+----------------------------------------------------------
+
+These builds aren't signed with an Apple Developer ID, so macOS blocks them
+after download. To allow them, run this in Terminal once per copied file:
+
+  xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/Components/Phyllotaxis.component
+  xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/VST3/Phyllotaxis.vst3
+  xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/CLAP/Phyllotaxis.clap
+  xattr -dr com.apple.quarantine /Applications/Phyllotaxis.app
+
+For the app you can instead try to open it once, then click Open Anyway in
+System Settings > Privacy & Security.
+
+If Logic still doesn't list the AU, log out and back in, or run
+  killall -9 AudioComponentRegistrar
+and rescan in Logic's Plug-in Manager.
+
+
+Using it
+--------
+
+Logic Pro: insert it in an instrument track's MIDI FX slot.
+
+Ableton Live: put it on a MIDI track (it outputs silent audio). On a second
+MIDI track with an instrument, set MIDI From to the first track, then
+Phyllotaxis, and set Monitor to In.
+
+Bitwig, Reaper, Cubase: load the VST3 or CLAP and route its MIDI output to an
+instrument.
+
+The line sweeps only while the host is playing. Turn off "follow host
+transport" in the panel to run it freely.
+
+
+Licenses
+--------
+
+LICENSE: Phyllotaxis's own code carries no copyright.
+THIRD_PARTY_LICENSES.txt: the libraries built into it.

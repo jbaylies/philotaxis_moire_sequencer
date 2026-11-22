@@ -5,6 +5,9 @@ set (target_version "1.0.0")
 
 project (${target_name} VERSION ${target_version} LANGUAGES C CXX OBJC OBJCXX)
 
+# Off for release packaging, so building never touches the installed plugins
+option (PHYLLOTAXIS_INSTALL_PLUGINS "Install the plugins into the user's plugin folders after each build" ON)
+
 # ==== YUP, vendored next to this file
 set (YUP_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set (YUP_BUILD_PLUGINS OFF CACHE BOOL "" FORCE)
@@ -52,7 +55,7 @@ yup_audio_plugin (
     PLUGIN_VST3_CATEGORIES Instrument Generator
     PLUGIN_AU_MANUFACTURER "${plugin_au_manufacturer}"
     PLUGIN_AU_SUBTYPE "${plugin_au_subtype}"
-    PLUGIN_COPY_AFTER_BUILD ON
+    PLUGIN_COPY_AFTER_BUILD ${PHYLLOTAXIS_INSTALL_PLUGINS}
     DEFINITIONS
         YUP_EMBED_DEFAULT_THEME_TEXT_SERIF_FONT=1
         YUP_EMBED_DEFAULT_THEME_TEXT_MONOSPACE_FONT=1
@@ -98,7 +101,9 @@ endif()
 # ~/Library/Audio/Plug-Ins, and a link into a privacy-protected folder such as
 # ~/Desktop is silently skipped by hosts without access to it (Ableton Live).
 # The copy is signed again, ad hoc, since the bundle changes after linking.
-if (APPLE)
+if (NOT PHYLLOTAXIS_INSTALL_PLUGINS)
+    # nothing to install
+elseif (APPLE)
     foreach (format vst3 clap)
         set (format_target ${target_name}_${format}_plugin)
         if (NOT TARGET ${format_target})

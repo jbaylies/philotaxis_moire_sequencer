@@ -1,0 +1,54 @@
+Phyllotaxis @VERSION@ for Windows
+================================
+
+A MIDI generator: a rotating line plays the points of a phyllotaxis spiral as
+MIDI notes. 64-bit Windows 10 or later. Nothing else needs installing.
+
+https://github.com/jbaylies/philotaxis_moire_sequencer
+
+
+Install
+-------
+
+Copy each plugin into its folder. Create the folder if it doesn't exist.
+
+  Phyllotaxis.vst3   C:\Program Files\Common Files\VST3   (Ableton Live, Cubase, Reaper)
+  Phyllotaxis.clap   C:\Program Files\Common Files\CLAP   (Bitwig, Reaper)
+  Phyllotaxis.exe    anywhere
+
+Phyllotaxis.vst3 is a folder: copy the whole folder. Copying into Program Files
+asks for administrator rights. Without them, use the per-user folders instead,
+%LOCALAPPDATA%\Programs\Common\VST3 and %LOCALAPPDATA%\Programs\Common\CLAP,
+though not every DAW scans them.
+
+Then rescan plugins in your DAW. In Ableton Live, turn on "Use VST3 Plug-In
+System Folders" in Settings > Plug-Ins.
+
+
+"Windows protected your PC"
+---------------------------
+
+Phyllotaxis.exe isn't code-signed, so SmartScreen warns about it the first
+time. Click More info, then Run anyway. DAWs load the plugins without this
+warning.
+
+
+Using it
+--------
+
+Ableton Live: put it on a MIDI track (it outputs silent audio). On a second
+MIDI track with an instrument, set MIDI From to the first track, then
+Phyllotaxis, and set Monitor to In.
+
+Bitwig, Reaper, Cubase: load the VST3 or CLAP and route its MIDI output to an
+instrument.
+
+The line sweeps only while the host is playing. Turn off "follow host
+transport" in the panel to run it freely.
+
+
+Licenses
+--------
+
+LICENSE: Phyllotaxis's own code carries no copyright.
+THIRD_PARTY_LICENSES.txt: the libraries built into it.
