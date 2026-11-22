@@ -36,11 +36,11 @@ A line from the centre to the rim rotates at `rpm`. It starts pointing straight 
 
 A C++ port of the v8ui script that works as a MIDI generator in a DAW. The pattern maths is ported line for line in double precision, so the points, colours and notes match the Max version. Notes are generated on the audio thread with sample-accurate timing, and every note-on gets its note-off: notes end when the transport stops, the channel changes, or the pattern is reset.
 
-The formats are AU (registered as a MIDI processor, so Logic lists it under MIDI FX), VST3, CLAP and a standalone app. It has been tested on macOS only.
+The formats are AU (registered as a MIDI processor, so Logic lists it under MIDI FX), VST3, CLAP and a standalone app. The VST3 and the standalone app have been tested in Ableton Live on macOS and Windows. The AU is macOS only.
 
 ### Building
 
-Needs CMake 3.31+ and Xcode's command line tools.
+Needs CMake 3.31+, plus Xcode's command line tools on macOS or Visual Studio 2022 (or its Build Tools) with the C++ workload on Windows.
 
 ```bash
 git clone --recurse-submodules https://github.com/jbaylies/philotaxis_moire_sequencer.git
@@ -49,7 +49,11 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build -j
 ```
 
+On Windows, configure with `-G "Visual Studio 17 2022" -A x64` and build with `cmake --build build --config Release --parallel`.
+
 The first configure downloads YUP's dependencies (SDL, the VST3, CLAP and AudioUnit SDKs). Each build installs the plugins into `~/Library/Audio/Plug-Ins` as `Phyllotaxis.vst3`, `Phyllotaxis.clap` and `phyllotaxis_au_plugin.component`. These are real copies rather than symlinks, because hosts without Desktop access, such as Ableton Live, skip links into a protected folder. The standalone app is `build/Phyllotaxis.app`.
+
+On Windows, each build installs `Phyllotaxis.vst3` into `%LOCALAPPDATA%\Programs\Common\VST3` and `Phyllotaxis.clap` into `%LOCALAPPDATA%\Programs\Common\CLAP`. Neither folder needs administrator rights. If your host doesn't scan the per-user folder, copy the VST3 into `C:\Program Files\Common Files\VST3`. The standalone app is `build\Release\Phyllotaxis.exe`.
 
 ### Using it
 

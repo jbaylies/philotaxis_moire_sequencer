@@ -21,6 +21,7 @@ set (plugin_email "")
 set (plugin_url "https://sousastep.quest")
 set (plugin_au_manufacturer "Sous")
 set (plugin_au_subtype "Phyl")
+set (plugin_copyright "The author disclaims copyright to this source code. May you do good and not evil.")
 
 # A MIDI generator: MIDI in (ignored) and out, plus a silent stereo output that
 # the AU instrument base class and most hosts expect.
@@ -77,9 +78,20 @@ if (TARGET ${target_name}_au_plugin)
     list (GET version_parts 2 version_patch)
     math (EXPR PLUGIN_AU_COMPONENT_VERSION "(${version_major} << 16) | (${version_minor} << 8) | ${version_patch}")
 
+    # YUP's template carries YUP's own copyright line; ours goes in its place
+    file (READ "${CMAKE_CURRENT_LIST_DIR}/yup/cmake/platforms/mac/AudioUnitInfo.plist.in" au_plist_template)
+    string (REGEX REPLACE "<key>NSHumanReadableCopyright</key>[ \t\r\n]*<string>[^<]*</string>"
+        "<key>NSHumanReadableCopyright</key>\n\t<string>${plugin_copyright}</string>" au_plist_template "${au_plist_template}")
+    set (au_midi_plist_in "${CMAKE_CURRENT_BINARY_DIR}/${target_name}_au_midi_processor.plist.in")
+    file (WRITE "${au_midi_plist_in}" "${au_plist_template}")
+
     set (au_midi_plist "${CMAKE_CURRENT_BINARY_DIR}/${target_name}_au_midi_processor.plist")
-    configure_file ("${CMAKE_CURRENT_LIST_DIR}/yup/cmake/platforms/mac/AudioUnitInfo.plist.in" "${au_midi_plist}" @ONLY)
+    configure_file ("${au_midi_plist_in}" "${au_midi_plist}" @ONLY)
     set_target_properties (${target_name}_au_plugin PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${au_midi_plist}")
+endif()
+
+if (TARGET ${target_name}_standalone_plugin)
+    set_target_properties (${target_name}_standalone_plugin PROPERTIES MACOSX_BUNDLE_COPYRIGHT "${plugin_copyright}")
 endif()
 
 # ==== Install real copies of the VST3 and CLAP bundles. YUP symlinks them into
@@ -102,6 +114,27 @@ if (APPLE)
             COMMENT "Copying ${format_folder} plugin to ${install_dir}/${plugin_name}.${format}"
             VERBATIM)
     endforeach()
+elseif (WIN32)
+    # YUP installs nothing on Windows. The per-user folders from the VST3 and
+    # CLAP specs need no administrator rights. A VST3 bundle's inner binary
+    # must carry the bundle's name, so both are renamed.
+    set (user_plugins "$ENV{LOCALAPPDATA}/Programs/Common")
+    if (TARGET ${target_name}_vst3_plugin)
+        set (vst3_bundle "${user_plugins}/VST3/${plugin_name}.vst3")
+        add_custom_command (TARGET ${target_name}_vst3_plugin POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E rm -rf "${vst3_bundle}"
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "$<TARGET_FILE_DIR:${target_name}_vst3_plugin>/../.." "${vst3_bundle}"
+            COMMAND ${CMAKE_COMMAND} -E rename "${vst3_bundle}/Contents/x86_64-win/$<TARGET_FILE_NAME:${target_name}_vst3_plugin>" "${vst3_bundle}/Contents/x86_64-win/${plugin_name}.vst3"
+            COMMENT "Copying VST3 plugin to ${vst3_bundle}"
+            VERBATIM)
+    endif()
+    if (TARGET ${target_name}_clap_plugin)
+        add_custom_command (TARGET ${target_name}_clap_plugin POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${user_plugins}/CLAP"
+            COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${target_name}_clap_plugin>" "${user_plugins}/CLAP/${plugin_name}.clap"
+            COMMENT "Copying CLAP plugin to ${user_plugins}/CLAP/${plugin_name}.clap"
+            VERBATIM)
+    endif()
 endif()
 
 # ==== Sources, compiled once into the core every format links
@@ -113,5 +146,9 @@ target_sources (${target_name}_shared PRIVATE ${sources})
 
 # Strict warnings on our own files only. YUP and its externals are read as
 # system headers here (quoted includes inside them inherit that).
-set_source_files_properties (${sources} PROPERTIES COMPILE_OPTIONS
-    "--system-header-prefix=yup_;--system-header-prefix=xsimd/;-Wall;-Wextra;-Wpedantic;-Wshadow;-Wconversion;-Wsign-conversion;-Wfloat-conversion;-Wdouble-promotion")
+if (MSVC)
+    set (strict_warnings "/W4;/external:anglebrackets;/external:W0")
+else()
+    set (strict_warnings "--system-header-prefix=yup_;--system-header-prefix=xsimd/;-Wall;-Wextra;-Wpedantic;-Wshadow;-Wconversion;-Wsign-conversion;-Wfloat-conversion;-Wdouble-promotion")
+endif()
+set_source_files_properties (${sources} PROPERTIES COMPILE_OPTIONS "${strict_warnings}")
