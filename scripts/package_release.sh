@@ -14,6 +14,7 @@ build="$root/build-release"
 stage="$build/stage"
 
 cmake -S "$root" -B "$build" \
+    -DYUP_DIR="$root/yup" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
     -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 \
