@@ -25,7 +25,7 @@ public:
     void clearFlashes();
 
     void paint (yup::Graphics& g) override;
-    void refreshDisplay (double lastFrameTimeSeconds) override;
+    void refreshDisplay (double lastFrameTimeSeconds);
     void mouseMove (const yup::MouseEvent& event) override;
     void mouseExit (const yup::MouseEvent& event) override;
     void mouseDown (const yup::MouseEvent& event) override;
@@ -59,6 +59,10 @@ private:
     bool panelShown = true;
     bool hoverButton = false;
     yup::Font statusFont;
+
+    // Calls refreshDisplay() on every frame of the window this is in. Last, so
+    // it stops before any of the members above are destroyed.
+    yup::FrameAttachment frameAttachment { *this, yup::bindFront (&PatternView::refreshDisplay, this) };
 
     YUP_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PatternView)
 };
