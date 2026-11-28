@@ -1,0 +1,54 @@
+Phyllotaxis @VERSION@ for Linux
+===============================
+
+A MIDI generator: a rotating line plays the points of a phyllotaxis spiral as
+MIDI notes. VST3, CLAP and LV2 plugins plus a standalone app. Built on Ubuntu
+22.04: runs on Linux with glibc 2.35 or later (Ubuntu 22.04, Debian 12,
+Fedora 36 and newer). Use the x86_64 download on a PC and the aarch64 one on
+64-bit ARM, such as a Raspberry Pi 4 or 5.
+
+https://github.com/jbaylies/philotaxis_moire_sequencer
+
+
+Install
+-------
+
+Copy each plugin into its folder. Create the folder if it doesn't exist.
+
+  Phyllotaxis.vst3   ~/.vst3   (Bitwig, Reaper, Ardour)
+  Phyllotaxis.clap   ~/.clap   (Bitwig, Reaper)
+  Phyllotaxis.lv2    ~/.lv2    (Ardour, Carla, Zrythm)
+  Phyllotaxis        anywhere, such as ~/.local/bin
+
+Phyllotaxis.vst3 and Phyllotaxis.lv2 are folders: copy the whole folder. For
+every user on the machine, use /usr/lib/vst3, /usr/lib/clap and /usr/lib/lv2
+instead.
+
+From a terminal, in the unpacked folder:
+
+  mkdir -p ~/.vst3 ~/.clap ~/.lv2
+  cp -r Phyllotaxis.vst3 ~/.vst3/
+  cp Phyllotaxis.clap ~/.clap/
+  cp -r Phyllotaxis.lv2 ~/.lv2/
+
+Then rescan plugins in your DAW.
+
+The plugins and the app need an X11 or XWayland desktop with OpenGL.
+
+
+Using it
+--------
+
+Load the VST3, CLAP or LV2 on a MIDI track and route its MIDI output to an
+instrument. In Ardour and Carla, connect its MIDI out to the instrument's MIDI
+in.
+
+The line sweeps only while the host is playing. Turn off "follow host
+transport" in the panel to run it freely.
+
+
+Licenses
+--------
+
+LICENSE: Phyllotaxis's own code carries no copyright.
+THIRD_PARTY_LICENSES.txt: the libraries built into it.

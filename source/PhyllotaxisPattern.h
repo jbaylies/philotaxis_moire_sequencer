@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <cstddef>
 
 // The pattern of phyllotaxis_moire_sequencer.js, ported line for line in double
 // precision: the OKLCH palette, the site layout, the animated phases and the
@@ -60,10 +61,10 @@ public:
     void update (int count, double discriminant);
 
     int size() const noexcept { return count; }
-    double radius (int n) const noexcept { return rad[static_cast<size_t> (n)]; }
+    double radius (int n) const noexcept { return rad[static_cast<std::size_t> (n)]; }
 
     /** In turns, counter-clockwise from +x. */
-    double angle (int n) const noexcept { return ang[static_cast<size_t> (n)]; }
+    double angle (int n) const noexcept { return ang[static_cast<std::size_t> (n)]; }
 
 private:
     std::array<double, maxPoints> rad {};

@@ -2,7 +2,7 @@
 # Writes the licenses of everything built into the plugin binaries, for the
 # release zips. Needs a configured build folder, for the libraries YUP fetches.
 #
-#   scripts/third_party_licenses.sh <build folder> <macos|windows> <output file>
+#   scripts/third_party_licenses.sh <build folder> <macos|windows|linux> <output file>
 #
 # The list follows what the plugin links: YUP's modules from yup_gui and
 # yup_audio_processors down, their third-party modules, SDL3, the plugin SDKs
@@ -26,6 +26,9 @@ section() # name, license name, file...
     printf '%s (%s)\n' "$name" "$license" >> "$out"
     printf '================================================================================\n\n' >> "$out"
     for file in "$@"; do
+        # YUP fetches some modules' sources next to the build folder rather
+        # than into it, which is where they land for the Linux builds
+        case "$file" in "$ext"/*) [ -f "$file" ] || file="$build/../externals/${file#"$ext"/}" ;; esac
         [ -f "$file" ] || { echo "missing license file: $file" >&2; exit 1; }
         cat "$file" >> "$out"
         printf '\n' >> "$out"
@@ -43,6 +46,9 @@ section "VST3 SDK" "MIT" "$ext/vst3sdk/LICENSE.txt"
 section "CLAP" "MIT" "$ext/clap/LICENSE"
 if [ "$platform" = macos ]; then
     section "AudioUnitSDK" "Apache 2.0" "$ext/AudioUnitSDK/LICENSE.txt"
+fi
+if [ "$platform" = linux ]; then
+    section "LV2" "ISC" "$ext/lv2-sdk/COPYING"
 fi
 section "Rive Runtime" "MIT" "$third/rive/LICENSE"
 section "Rive Decoders" "MIT" "$third/rive_decoders/LICENSE"
