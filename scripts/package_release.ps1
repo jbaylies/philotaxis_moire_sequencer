@@ -26,12 +26,10 @@ Invoke-Checked cmake --build $build --config Release --parallel
 if (Test-Path $stage) { Remove-Item -Recurse -Force $stage }
 New-Item -ItemType Directory $stage | Out-Null
 
-# A VST3 bundle's inner binary must carry the bundle's name
 $vst3 = Join-Path $stage 'Phyllotaxis.vst3'
-Copy-Item -Recurse (Join-Path $build 'VST3\Release\phyllotaxis_vst3_plugin.vst3') $vst3
-Rename-Item (Join-Path $vst3 'Contents\x86_64-win\phyllotaxis_vst3_plugin.vst3') 'Phyllotaxis.vst3'
+Copy-Item -Recurse (Join-Path $build 'VST3\Release\Phyllotaxis.vst3') $vst3
 
-Copy-Item (Join-Path $build 'Release\phyllotaxis_clap_plugin.clap') (Join-Path $stage 'Phyllotaxis.clap')
+Copy-Item (Join-Path $build 'CLAP\Release\Phyllotaxis.clap') (Join-Path $stage 'Phyllotaxis.clap')
 Copy-Item (Join-Path $build 'Release\Phyllotaxis.exe') (Join-Path $stage 'Phyllotaxis.exe')
 
 Write-Host "Staged in $stage"

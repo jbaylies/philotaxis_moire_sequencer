@@ -23,9 +23,9 @@ cmake --build "$build" --config Release -j
 
 rm -rf "$stage"
 mkdir -p "$stage"
-ditto "$build/phyllotaxis_au_plugin.component" "$stage/Phyllotaxis.component"
-ditto "$build/VST3/Release/phyllotaxis_vst3_plugin.vst3" "$stage/Phyllotaxis.vst3"
-ditto "$build/phyllotaxis_clap_plugin.clap" "$stage/Phyllotaxis.clap"
+ditto "$build/AU/Phyllotaxis.component" "$stage/Phyllotaxis.component"
+ditto "$build/VST3/Release/Phyllotaxis.vst3" "$stage/Phyllotaxis.vst3"
+ditto "$build/CLAP/Phyllotaxis.clap" "$stage/Phyllotaxis.clap"
 ditto "$build/Phyllotaxis.app" "$stage/Phyllotaxis.app"
 
 # YUP's bundles carry signatures that no longer match their contents
